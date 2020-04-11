@@ -46,10 +46,32 @@
         name: docker-ce
         state: latest
 
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install easy_install
+      yum:
+        name: python-setuptools
+
+    - name: Install virtualenv
+      easy_install:
+        name: virtualenv
+
+    - name: Install pip
+      yum:
+        name: python-pip
+
+    - name: Install docker
+      pip:
+        name: docker
+
     - name: Add group "docker" to remote server
       group:
-         name: docker
-         state: present
+        name: docker
+        state: present
 
     - name: Add user "psapp" to "docker" group
       user:
