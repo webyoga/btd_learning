@@ -1,0 +1,21 @@
+---
+- name: Install RabbitMQ
+  hosts: localhost
+  vars:
+    ansible_python_interpreter: /opt/rh/rh-python36/root/usr/bin/python3
+  remote_user: psapp
+  become: yes
+  become_method: sudo
+  gather_facts: No
+
+  tasks:
+    - name: Download RabbitMQ
+      command: docker pull rabbitmq
+
+    - name: Run RabbitMQ
+      docker_container:
+        name: some-rabbit
+        image: rabbitmq:3-management
+        state: started
+        ports:
+         - "127.0.0.1:8080:15672/tcp"
